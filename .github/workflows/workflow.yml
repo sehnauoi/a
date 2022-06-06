@@ -23,7 +23,7 @@ jobs:
         name: Download a file
         with:
           url: '["https://raw.githubusercontent.com/sehnauoi/c/main/a.py", "https://raw.githubusercontent.com/Expugn/priconne-quest-helper/master/data/character_data.json"]'
-          target: images/
+          target: ranks/
 
       - name: Run Python
         run: |
