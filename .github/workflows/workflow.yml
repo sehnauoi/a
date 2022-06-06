@@ -1,0 +1,42 @@
+name: Synchronize
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '* 1 * * *'
+
+jobs:
+  sync:
+    name: "Synchronize"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - uses: Angelk90/actions-download-file@master
+        id: downloadfile
+        name: Download a file
+        with:
+          url: '["https://raw.githubusercontent.com/sehnauoi/c/main/a.py", "https://raw.githubusercontent.com/Expugn/priconne-quest-helper/master/data/character_data.json"]'
+          target: images/
+
+      - name: Run Python
+        run: |
+          cd ranks
+          pip install pandas
+          python a.py
+          cd ..
+          
+      - name: Commit, create PR, and merge
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add *
+          git commit -m "update"
+          git push -u origin main
