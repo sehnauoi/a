@@ -6,7 +6,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '* 1 * * *'
+    - cron: '00 00 * * 1'
 
 jobs:
   sync:
@@ -31,6 +31,27 @@ jobs:
           pip install pandas
           python a.py
           cd ..
+          
+      - name: installing scraper
+        run: pip install imgscrapy
+         
+      - name: download card
+        run: imgscrapy https://redive.estertion.win/card/full/ -d card -i
+                 
+      - name: download equipment
+        run: imgscrapy https://redive.estertion.win/icon/equipment/ -d equipment -i
+                 
+      - name: download item
+        run: imgscrapy https://redive.estertion.win/icon/item/ -d item -i
+                 
+      - name: download unit
+        run: imgscrapyhttps://redive.estertion.win/icon/unit/ -d unit -i 
+                 
+      - name: download skills
+        run: imgscrapy https://redive.estertion.win/card/full/ -d skills -i
+                       
+      - name: list folders
+        run: ls
           
       - name: Commit, create PR, and merge
         run: |
